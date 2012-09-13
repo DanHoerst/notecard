@@ -1,0 +1,21 @@
+http://notecard.herokuapp.com/
+login: tester
+pw: testing
+
+Problem:
+
+Using notecards to study is extremely helpful. However, over the course of a section, semester, or degree program you could create tens of thousands of physical notecards.
+
+There is absolutely no way to organize these notecards efficiently enough to use them for studying in the future.
+
+Solution:
+
+I've created an online notecard solution. You can sort your notecards into Semesters, Sections, and even into Known/Unknown piles for each section.
+
+These notecards are conveniently located on a hosted solution for access from any device at any time.
+
+Goals:
+
+3/27 - While the base application is about complete, changing notecards from the Known to the Unknown pile and vice versa is my biggest goal/challenge at this point.
+
+    Ideally, I would like to have users going through the Known pile be able to click the Known button to continue to the next notecard, and the Unknown button to move that notecard back into the Unknown pile. The same logic would apply for the Unknown pile.

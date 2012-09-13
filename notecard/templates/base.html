@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>{% block title %}{% endblock %}NoteCards!</title>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheet.css">
+</head>
+<body>
+	<h1 class='title'><a class="title" href="{% url 'semester_list' %}">NoteCards!</a></h1>
+	<div id="logout">
+	{% if user.is_authenticated %}<p>Logged in as {{ user.username }}. <a class href="/auth/logout/">Logout</a></p>
+	<form method="get" action="/search/">
+	Search Notecards:<input type="text" name="q" id="id_q" value="{{ query }}"/>
+    <input type="submit" value="Search" />
+	</form>
+	{% endif %}
+	</div>
+    {% block content %}
+    {% endblock %}
+    <br>
+    {% block whatis %}
+    {% endblock %}
+</body>
+

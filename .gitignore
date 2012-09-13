@@ -1,0 +1,9 @@
+*.pyc
+venv
+.metadata
+.project
+.pydevproject
+*.py~
+.gitignore~
+*.*~
+.idea/

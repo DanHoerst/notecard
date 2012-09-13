@@ -1,0 +1,298 @@
+/* DHoerst1@gmail.com */
+
+/* body */
+	body {
+	  text-align: center;
+	  background-image:url(images/background.jpg);
+	  background-size: cover;
+	  margin: 0 auto;
+	  color: wheat;
+	  font: Purisa;
+	  font-size: 18pt;
+	  text-decoration:none;
+	}
+
+/* link setup */
+/* title */
+	a.title:link {
+	  width: 40%;
+	  min-height: 300px;
+	  color: Black; text-decoration: none;
+	  background-color: wheat;
+      background-size: cover;
+	  border-style:outset;
+	  -moz-border-radius:6px; 
+	  }
+	a.title:active {
+	  width: 40%;
+	  min-height: 300px;
+	  color: Black; text-decoration: none;
+        background-color: wheat;
+	  border-style:outset;
+	  -moz-border-radius:6px; 
+	}
+	a.title:visited {
+	  color: Black; text-decoration: none;
+      background-color: wheat;
+	  border-style:outset;
+	  -moz-border-radius:6px; 
+	  }
+	a.title:hover {
+	  color: Black; text-decoration: none;
+      background-color: #f2d8a9;
+	  border-style:outset;
+	  -moz-border-radius:6px; 
+	}
+	
+/* all other body links */
+	a:link {
+	  color: wheat; text-decoration: none;
+	  }
+	a:active {
+	  color: wheat; text-decoration: none;
+	}
+	a:visited {
+	  color: wheat; text-decoration: none;
+	  }
+	a:hover {
+	  color: black; text-decoration: none;
+	}
+
+/* "back to" links */
+	a.back:link {
+		color: Black;
+	}
+	a.back:active {
+		color: Black;
+	}
+	a.back:visited {
+		color: Black;
+	}
+	a.back:hover {
+		color: White;
+	}
+	
+
+/* Green known button */
+	a.known {
+	-moz-box-shadow:inset 0px 1px 0px 0px #a4e271;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #a4e271;
+	box-shadow:inset 0px 1px 0px 0px #a4e271;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #89c403), color-stop(1, #77a809) );
+	background:-moz-linear-gradient( center top, #89c403 5%, #77a809 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#89c403', endColorstr='#77a809');
+	background-color:#89c403;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #74b807;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #528009;
+	width: 70px;
+	}
+	a.known:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77a809), color-stop(1, #89c403) );
+	background:-moz-linear-gradient( center top, #77a809 5%, #89c403 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77a809', endColorstr='#89c403');
+	background-color:#77a809;
+	}
+	a.known:active {
+	position:relative;
+	top:1px;
+	}
+
+/* Red Unknown Button */
+	a.unknown {
+	-moz-box-shadow:inset 0px 1px 0px 0px #f29c93;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #f29c93;
+	box-shadow:inset 0px 1px 0px 0px #f29c93;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #fe1a00), color-stop(1, #ce0100) );
+	background:-moz-linear-gradient( center top, #fe1a00 5%, #ce0100 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe1a00', endColorstr='#ce0100');
+	background-color:#fe1a00;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #d83526;
+	display:inline-block;
+	color:#ffffff;
+	font:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #b23e35;
+	width: 70px;
+	}
+	a.unkown:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ce0100), color-stop(1, #fe1a00) );
+	background:-moz-linear-gradient( center top, #ce0100 5%, #fe1a00 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ce0100', endColorstr='#fe1a00');
+	background-color:#ce0100;
+	}a.unkown:active {
+	position:relative;
+	top:1px;
+	}
+
+/* Pagination */
+	a.navlink{
+	color: black;
+	}
+	a.navlink:hover{
+	color: wheat;
+	}
+	span.current{
+	color: wheat;
+	}
+
+/* Notecard Background */
+	h3.notecard {
+	  background-image:url(images/notecard.jpg);
+	  background-size: cover;
+	  width: 40%;
+	  min-height: 300px;
+	  text-align: center;
+	  margin: 0 auto;
+	  color: Black;
+	  font: Purisa;
+	  font-size: 16pt;  
+	}
+
+/* Main notecard table */
+	table#notecards {
+	  text-align: center;
+	  border-collapse: collapse;
+	  width: 100%;
+	  border-bottom: 2px solid black; 
+	}
+	table#notecards th {
+	  text-align: center;
+	  border-style:outset;
+	  -moz-border-radius:6px; 
+	  font-weight: bold;
+	  background-color: wheat;
+	}
+	table#notecards th, table#notecards td {
+	  padding: 4px;
+	  text-align: center;
+	}
+		/* Black table name */
+		th.name{
+		  color: black;
+		}
+
+/* Logout Navigation */
+	div#logout {
+	  color: White;
+	  text-align: right;
+	  font-size: 8pt;
+	}
+
+/* Divides image and text for notecard_list template */
+	table#known_split {
+	  text-align: center;
+	  border-collapse: collapse;
+	  width: 50%;
+	  border-bottom: 2px solid black;
+	  margin: 0 auto;
+	}
+	table#known_split th {
+	  text-align: center;
+	  border: 2px solid white;
+	  font-weight: bold;
+	  background-color: wheat;
+	}
+	table#known_list th, table#known_list td {
+	  padding: 4px;
+	  text-align: center;
+	}
+
+	/* Known/Unknown Image */
+		td.image {
+		  text-align: center;
+		  width: 50%;
+		}
+	
+	/* Known/Unknown Text */
+		td.text {
+		  text-align: left;
+		}
+
+/* Red edit link */
+	a.edit{
+	  color: Red;
+	  font-size: 10pt;
+	}
+	a.edit:hover{
+	  color: Black;
+	  font-size: 10pt;
+	}
+
+/* #myButton is the wheat colored button used for everything except Unknown/Known */
+	#myButton {
+	   border-top: 1px solid #a17435;
+	   background: #f5deb3;
+	   background: -webkit-gradient(linear, left top, left bottom, from(#eddcbe), to(#f5deb3));
+	   background: -webkit-linear-gradient(top, #eddcbe, #f5deb3);
+	   background: -moz-linear-gradient(top, #eddcbe, #f5deb3);
+	   background: -ms-linear-gradient(top, #eddcbe, #f5deb3);
+	   background: -o-linear-gradient(top, #eddcbe, #f5deb3);
+	   padding: 9px 18px;
+	   -webkit-border-radius: 7px;
+	   -moz-border-radius: 7px;
+	   border-radius: 7px;
+	   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+	   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+	   box-shadow: rgba(0,0,0,1) 0 1px 0;
+	   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+	   color: #000000;
+	   font-size: 14px;
+	   font: 'Lucida Grande', Helvetica, Arial, Sans-Serif;
+	   text-decoration: none;
+	   vertical-align: middle;
+	   }
+	#myButton:hover {
+	   border-top-color: #f2d8a9;
+	   background: #f2d8a9;
+	   color: #000000;
+	   }
+	#mButton:active {
+	   border-top-color: #73550e;
+	   background: #73550e;
+	   }
+
+/* form id */
+	#modify{
+	  line-height: 200%;
+	  text-align: center;
+	}
+/* table id for center align */
+	#modifytable{
+	  line-height: 200%;
+	  margin-left: auto;
+	  margin-right: auto;
+	}
+
+/* White visitor text explaining how to login */
+	.visitor{
+	  color: White;
+	  font-size: 12pt;
+	}
+	
+/* Registration helptext */
+	span.helptext{
+		font-size: 10pt;
+		color: White;
+	}
+	
+/* Registration errors */
+	ul.errorlist{
+		font-size: 12pt;
+		color: Maroon;
+	}

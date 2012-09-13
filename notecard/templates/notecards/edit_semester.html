@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Edit Semester | NoteCards!</title>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheet.css">
+</head>
+<body>
+    <div id='main'>
+    <h1 class='title'><a class="title" href="{% url 'notecards.views.semester_list' %}">NoteCards!</a></h1>
+    <table id='notecards'>
+    <thead>
+      <tr>
+        <th class="name">Edit Semester</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+		{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+		<form id="modify" action="" method="post">
+		    {% csrf_token %}
+		    <table id='new' align="center">{{ form.as_table }}</table>
+		    <input id="myButton" type="submit" value="Edit Semester"/>
+		</form>
+      </tr>
+    </tbody>
+    </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %} Known Notecards | {% endblock %}
+
+{% block content %}
+<div id="main">
+<table id="notecards">
+    <thead>
+      <tr>
+       <th class="name"><a class="back" href="{% url notecard_list section.id %}">{{ section.section_name }}</a> - Known Notecards</th>
+      </tr>
+    </thead>
+</table>
+{% for notecard in known.object_list %}
+	<h3 class="notecard"><span id='boldStuff'>{{ notecard.notecard_name_html|safe }}</span><a class ="edit" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit </a></h3>
+	<input id ="myButton" type="button" onclick="changeText()" value="View Answer"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+	<script type="text/javascript">
+	function changeText(){
+		if (document.getElementById("boldStuff").innerHTML == "{{ notecard.notecard_html|escapejs }}")
+		{
+			document.getElementById("boldStuff").innerHTML = "{{ notecard.notecard_name_html|escapejs }}";
+			$("#myButton").prop("value", "View Question");
+		}
+		else
+		{
+			document.getElementById("boldStuff").innerHTML = "{{ notecard.notecard_html|escapejs }}";
+			$("#myButton").prop("value", "View Answer");
+		}
+	}
+	</script>
+	<br>
+	<form id="modify" method=POST action="{% url notecards.views.toggle_known notecard.pk %}">
+	{% csrf_token %}
+	<input type="hidden" name="next" value="{% url notecards.views.known_list notecard.section.id %}?page={{known.number}}">
+	<input id="myButton" type="submit" value="Send to Unknown Pile">
+	</form>
+{% endfor %}
+<div class="pagination">
+	<span class="step-links">
+		{% if known.has_previous %}
+			<a class="navlink" href="?page={{ known.previous_page_number }}">previous</a>
+		{% endif %}
+		
+		<span class="current">
+		Notecard {{ known.number }} of {{ known.paginator.num_pages }}
+		</span>
+		
+		{% if known.has_next %}
+			<a class="navlink" href="?page={{ known.next_page_number }}">next</a>
+		{% endif %}
+	</span>
+</div>
+{% endblock %}
+
