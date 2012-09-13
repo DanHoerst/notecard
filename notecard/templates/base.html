@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}stylesheet.css">
 </head>
 <body>
-	<h1 class='title'><a class="title" href="{% url 'semester_list' %}">NoteCards!</a></h1>
+	<h1 class='title'><a class="title" href="{% url semester_list %}">NoteCards!</a></h1>
 	<div id="logout">
 	{% if user.is_authenticated %}<p>Logged in as {{ user.username }}. <a class href="/auth/logout/">Logout</a></p>
 	<form method="get" action="/search/">
