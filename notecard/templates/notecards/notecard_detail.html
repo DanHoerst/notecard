@@ -6,10 +6,10 @@
 <div id='main'>
 <table id='notecards'>
   <tr>
-    <th class="name"><a class="back" href="{% url 'notecard_list' notecard.section.id %}">{{ notecard.section }}</a> - Notecard Detail</th>
+    <th class="name"><a class="back" href="{% url notecard_list notecard.section.id %}">{{ notecard.section }}</a> - Notecard Detail</th>
   </tr>
 </table>
-<h3 class='notecard'><span id='boldStuff'>{{ notecard.notecard_name_html|safe }}</span><a class ="edit" href="{% url 'notecards.views.edit_notecard' notecard.id %}"> Edit </a></h3>
+<h3 class='notecard'><span id='boldStuff'>{{ notecard.notecard_name_html|safe }}</span><a class ="edit" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit </a></h3>
 <input id ="myButton" type='button' onclick='changeText()' value='View Answer'/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 <script type="text/javascript">

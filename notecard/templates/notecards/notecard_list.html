@@ -8,7 +8,7 @@
     <th class="name"><a class="back" href="{% url 'section_list' section.semester.id %}">{{ section.semester }}</a> - {{ section.section_name }}</th>
   </tr>
   <tr>
-    <td><a class="known" href="{% url 'notecards.views.known_list' section.id %}">Known </a><a class="unknown" href="{% url 'notecards.views.unknown_list' section.id %}"> Unknown</a></td>
+    <td><a class="known" href="{% url notecards.views.known_list section.id %}">Known </a><a class="unknown" href="{% url notecards.views.unknown_list section.id %}"> Unknown</a></td>
   </tr>
 </table>
 
@@ -16,7 +16,7 @@
 {% for notecard in notecard_list.object_list %}
 <tr>
 <td class="image">{% if notecard.known %}<img src="{{ STATIC_URL }}/images/known.png" width="41" height="40" />{% else %}<img src="{{ STATIC_URL }}/images/unknown.png" width="41" height="40" />{% endif %}</td>
-<td class="text"><a href="{% url 'notecards.views.notecard_detail' notecard.id %}">{{ notecard.notecard_name|truncatewords:9 }}</a></td>
+<td class="text"><a href="{% url notecards.views.notecard_detail notecard.id %}">{{ notecard.notecard_name|truncatewords:9 }}</a></td>
 </tr>
 {% endfor %}
 </table>
@@ -37,7 +37,7 @@ Page {{ notecard_list.number }} of {{ notecard_list.paginator.num_pages }}
   </span>
 </div>
 
-<FORM id="modify" METHOD="LINK" ACTION="{% url 'notecards.views.new_notecard' section.id %}">
+<FORM id="modify" METHOD="LINK" ACTION="{% url notecards.views.new_notecard section.id %}">
 <INPUT id ="myButton" TYPE="submit" VALUE="Add New Notecard">
 </FORM>
 </div>

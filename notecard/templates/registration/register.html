@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="visitor"><a href="{% url 'registration.views.LoginRequest' %}">Return to Login</a></div>
+<div class="visitor"><a href="{% url registration.views.LoginRequest %}">Return to Login</a></div>
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 	<form id="modify" action="" method="post">
 	    {% csrf_token %}

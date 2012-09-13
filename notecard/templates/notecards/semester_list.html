@@ -13,7 +13,7 @@
 	<tbody>
 	  {% for sem in semester_list.object_list %}
 		<tr>
-		  <td><a href="{% url 'notecards.views.section_list' sem.id %}">{{ sem.semester_name }}</a><a class ="edit" href="{% url 'notecards.views.edit_semester' sem.id %}"> Edit </a></td>
+		  <td><a href="{% url notecards.views.section_list sem.id %}">{{ sem.semester_name }}</a><a class ="edit" href="{% url notecards.views.edit_semester sem.id %}"> Edit </a></td>
 	    </tr>
 	  {% endfor %}
 	</tbody>
@@ -33,7 +33,7 @@
 	{% endif %}
   </span>
 </div>
-<FORM id="modify" METHOD="LINK" ACTION="{% url 'notecards.views.new_semester' %}">
+<FORM id="modify" METHOD="LINK" ACTION="{% url notecards.views.new_semester %}">
 <INPUT id ="myButton" TYPE="submit" VALUE="Add New Semester">
 </FORM>
 </div>
