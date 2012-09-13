@@ -5,7 +5,7 @@
 <div id='main'>
 <table id='notecards'>
   <tr>
-    <th class="name"><a class="back" href="{% url 'section_list' section.semester.id %}">{{ section.semester }}</a> - {{ section.section_name }}</th>
+    <th class="name"><a class="back" href="{% url section_list section.semester.id %}">{{ section.semester }}</a> - {{ section.section_name }}</th>
   </tr>
   <tr>
     <td><a class="known" href="{% url notecards.views.known_list section.id %}">Known </a><a class="unknown" href="{% url notecards.views.unknown_list section.id %}"> Unknown</a></td>
