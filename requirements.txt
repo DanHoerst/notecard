@@ -6,3 +6,4 @@ South==0.7.3
 dj-database-url==0.2.0
 pylibmc==1.2.2
 django-pylibmc-sasl==0.2.4
+newrelic
