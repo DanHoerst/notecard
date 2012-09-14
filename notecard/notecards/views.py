@@ -11,19 +11,17 @@ import logging
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
+# 60 Minute cache time
+cache_time = 1800
 
 @login_required(login_url='/auth/login/')
 def semester_list(request):
     # Find all of user's semesters or 404
-    try:
-        cache_key = str(request.user) + 'semester_list_all_cache_key'
-        cache_time = 1800
-        semester = cache.get(cache_key)
-        if not semester:
-            semester = Semester.objects.filter(user=request.user)
-            cache.set(cache_key, semester, cache_time)
-    except User.DoesNotExist:
-        raise Http404
+    cache_key = str(request.user) + 'users_semester_list_cache_key'
+    semester = cache.get(cache_key)
+    if not semester:
+        semester = Semester.objects.filter(user=request.user)
+        cache.set(cache_key, semester, cache_time)
         
     ## paginate each semester
     paginator = Paginator(semester, 6)
@@ -45,8 +43,7 @@ def semester_list(request):
 def section_list(request, semester_id):
     # Get chosen semester
     try:
-        cache_key = str(semester_id) + 'section_list_semester_cache_key'
-        cache_time = 1800
+        cache_key = str(semester_id) + 'single_semester_cache_key'
         semester = cache.get(cache_key)
         if not semester:
             semester = Semester.objects.get(id__iexact=semester_id)
@@ -55,7 +52,7 @@ def section_list(request, semester_id):
         raise Http404
     
     # get all sections related to the semester owned by the user
-    cache_key_2 = str(semester_id) + 'section_list_section_cache_key'
+    cache_key_2 = str(semester_id) + 'users_section_list_cache_key'
     section = cache.get(cache_key_2)
     if not section:
         section = Section.objects.filter(semester__id=semester_id)
@@ -87,8 +84,7 @@ def section_list(request, semester_id):
 def notecard_list(request, section_id):
     # Look up the section or raise 404
     try:
-        cache_key = str(section_id) + 'notecard_list_section_cache_key'
-        cache_time = 1800
+        cache_key = str(section_id) + 'single_section_cache_key'
         section = cache.get(cache_key)
         if not section:
             section = Section.objects.get(id__iexact = section_id)
@@ -96,14 +92,15 @@ def notecard_list(request, section_id):
     except Section.DoesNotExist:
         raise Http404
 
-    cache_key_2 = str(section_id) + 'notecard_list_semester_cache_key'
+    semester_id = section.semester.id
+    cache_key_2 = str(semester_id) + 'single_semester_cache_key'
     semester = cache.get(cache_key_2)
     if not semester:
         # create semester variable to test if owned by user
         semester = Semester.objects.get(section__id__iexact = section_id)
         cache.set(cache_key_2, semester, cache_time)
 
-    cache_key_3 = str(section_id) + 'notecard_list_notecard_cache_key'
+    cache_key_3 = str(section_id) + 'users_notecard_list_cache_key'
     notecard = cache.get(cache_key_3)
     if not notecard:
         # get all notecards related to the section of the semester owned by the user
@@ -136,16 +133,16 @@ def notecard_list(request, section_id):
 def notecard_detail(request, notecard_id):
     # Look up the username or raise 404
     try:
-        cache_key = str(notecard_id) + 'notecard_detail_notecard_cache_key'
-        cache_time = 1800
+        cache_key = str(notecard_id) + 'single_notecard_cache_key'
         notecard = cache.get(cache_key)
         if not notecard:
             notecard = Notecard.objects.get(id__iexact=notecard_id)
             cache.set(cache_key, notecard, cache_time)
-    except Section.DoesNotExist:
+    except Notecard.DoesNotExist:
         raise Http404
 
-    cache_key_2 = str(notecard_id) + 'notecard_detail_semester_cache_key'
+    semester_id = notecard.section.semester.id
+    cache_key_2 = str(semester_id) + 'single_semester_cache_key'
     semester = cache.get(cache_key_2)
     if not semester:
         semester = Semester.objects.get(section__notecard__id__iexact = notecard_id)
@@ -161,8 +158,6 @@ def notecard_detail(request, notecard_id):
 
 @login_required(login_url='/auth/login/')
 def new_semester(request):
-    cache_key = str(request.user) + 'semester_list_all_cache_key'
-    cache_time = 1800
     semester = Semester(user = request.user)
 
     if request.method == 'POST':
@@ -170,6 +165,7 @@ def new_semester(request):
         if form.is_valid():
             semester.semester_name = form.cleaned_data['semester_name']
             semester.save()
+            cache_key = str(request.user) + 'users_semester_list_cache_key'
             cache.delete(cache_key)
             return HttpResponseRedirect('/')
     else:
@@ -179,9 +175,8 @@ def new_semester(request):
     return render_to_response('notecards/new_semester.html', csrfContext)
 
 @login_required(login_url='/auth/login/')
-def edit_semester(request, semester_id, template_name='edit_semester.html'):
-    cache_key = str(semester_id) + 'section_list_semester_cache_key'
-    cache_time = 1800
+def edit_semester(request, semester_id):
+    cache_key = str(semester_id) + 'single_semester_cache_key'
     semester = cache.get(cache_key)
     if not semester:
         semester = get_object_or_404(Semester, pk=semester_id)
@@ -197,7 +192,8 @@ def edit_semester(request, semester_id, template_name='edit_semester.html'):
             # process the data in form.cleaned_data
             semester.semester_name = form.cleaned_data['semester_name']
             semester.save()
-            cache.delete(cache_key)
+            cache_key_2 = str(request.user) + 'users_semester_list_cache_key'
+            cache.delete_many([cache_key, cache_key_2])
             return HttpResponseRedirect('/')    
     else:
         form = SemesterForm(initial={'semester_name': semester.semester_name})
@@ -210,16 +206,11 @@ def edit_semester(request, semester_id, template_name='edit_semester.html'):
 @login_required(login_url='/auth/login/')
 def new_section(request, semester_id):
     vars = {}
-    # Look up the game or raise 404
-    try:
-        cache_key = str(semester_id) + 'section_list_section_cache_key'
-        semester = Semester.objects.get(id__iexact=semester_id)
-    except Semester.DoesNotExist:
-        raise Http404
+    semester = Semester.objects.get(id__iexact=semester_id)
     
     # check if semester user is logged in user
     if semester.user != request.user:
-            raise Http404
+        raise Http404
 
     if request.method == 'POST': #if the form has been submitted
         form = SectionForm(request.POST) # a form bound to the POST data
@@ -228,6 +219,7 @@ def new_section(request, semester_id):
             section_name = form.cleaned_data['section_name']
             section = Section(semester=semester, section_name=section_name)
             section.save()
+            cache_key = str(semester_id) + 'users_section_list_cache_key'
             cache.delete(cache_key)
             url = reverse('section_list', kwargs={'semester_id': semester_id})
             return HttpResponseRedirect(url)
@@ -242,8 +234,7 @@ def new_section(request, semester_id):
 @login_required(login_url='/auth/login/')
 def edit_section(request, section_id):
     vars = {}
-    cache_key = str(section_id) + 'notecard_list_section_cache_key'
-    cache_time = 1800
+    cache_key = str(section_id) + 'single_section_cache_key'
     section = cache.get(cache_key)
     if not section:
         section = get_object_or_404(Section, pk=section_id)
@@ -259,7 +250,9 @@ def edit_section(request, section_id):
             # process the data in form.cleaned_data
             section.section_name = form.cleaned_data['section_name']
             section.save()
-            cache.delete(cache_key)
+            semester_id = section.semester.id
+            cache_key_2 = str(semester_id) + 'users_section_list_cache_key'
+            cache.delete_many([cache_key, cache_key_2])
             url = reverse('section_list', kwargs={'semester_id': section.semester.id})
             return HttpResponseRedirect(url)
     else:
@@ -272,11 +265,9 @@ def edit_section(request, section_id):
 
 @login_required(login_url='/auth/login/')
 def new_notecard(request, section_id):
-
     vars = {}
     # Look up the game or raise 404
     try:
-        cache_key = str(section_id) + 'notecard_list_notecard_cache_key'
         section = Section.objects.get(id__iexact=section_id)
     except Section.DoesNotExist:
         raise Http404
@@ -292,8 +283,9 @@ def new_notecard(request, section_id):
             notecard_body = form.cleaned_data['notecard_body']
             notecard = Notecard(section=section, notecard_name=notecard_name, notecard_body=notecard_body)
             notecard.save()
-            cache.delete(cache_key)
-            cache.delete('unknown_list_cache_key')
+            # set and clear cache for the
+            cache_key = str(section_id) + 'users_notecard_list_cache_key'
+            cache.delete_many([cache_key, 'unknown_list_cache_key'])
             url = reverse('notecard_list', kwargs={'section_id': section_id})
             return HttpResponseRedirect(url)
     else:
@@ -307,32 +299,28 @@ def new_notecard(request, section_id):
 @login_required(login_url='/auth/login/')
 def edit_notecard(request, notecard_id):
     vars = {}
-    cache_key = str(notecard_id) + 'notecard_detail_notecard_cache_key'
-    cache_time = 1800
+    cache_key = str(notecard_id) + 'single_notecard_cache_key'
     notecard = cache.get(cache_key)
     if not notecard:
         notecard = get_object_or_404(Notecard, pk=notecard_id)
         cache.set(cache_key, notecard, cache_time)
     ## if notecard found, sets section_id for URL reverse after edit submission
     section_id = notecard.section.id
-    cache_key2 = str(section_id) + 'notecard_list_notecard_cache_key'
-    cache_key3 = str(section_id) + 'notecard_list_section_cache_key'
-
     if notecard.section.semester.user != request.user:
             raise Http404
-
-    if request.POST.get('delete'):
-        form = NotecardForm(request.POST, instance=notecard)
-        if form.is_valid():
-            cache.delete_many([cache_key,cache_key2,cache_key3])
+    form = NotecardForm(request.POST, instance=notecard)
+    if form.is_valid():
+        cache_key_2 = str(section_id) + 'users_notecard_list_cache_key'
+        if notecard.known:
+            cache_key_3 = str(section_id) + 'known_list_cache_key'
+        else:
+            cache_key_3 = str(section_id) + 'unknown_list_cache_key'
+        cache.delete_many([cache_key,cache_key_2,cache_key_3])
+        if request.POST.get('delete'):
             notecard.delete()
             url = reverse('notecard_list', kwargs={'section_id': notecard.section_id})
             return HttpResponseRedirect(url)
-    elif request.method == 'POST': #if the form has been submitted
-        form = NotecardForm(request.POST, instance=notecard) # a form bound to the POST data
-        if form.is_valid(): #all validation rules pass
-            # process the data in form.cleaned_data
-            cache.delete_many([cache_key,cache_key2,cache_key3])
+        elif request.method == 'POST': #if the form has been submitted
             notecard.notecard_name = form.cleaned_data['notecard_name']
             notecard.notecard_body = form.cleaned_data['notecard_body']
             notecard.save()
@@ -348,15 +336,18 @@ def edit_notecard(request, notecard_id):
 
 @login_required(login_url='/auth/login/')
 def known_list(request, section_id):
-
     try:
         section = Section.objects.get(id__iexact = section_id)
     except Section.DoesNotExist:
         raise Http404
-
+    cache_key = str(section_id) + 'known_list_cache_key'
+    known_list = cache.get(cache_key)
+    if not known_list:
+        known_list = Notecard.objects.filter(known=1, section=section)
+        known_list = known_list.filter(section__semester__user=request.user)
+        cache.set(cache_key, known_list, cache_time)
     semester = Semester.objects.get(section__id__iexact = section_id)
-    known_list = Notecard.objects.filter(known=1, section=section)
-    known_list = known_list.filter(section__semester__user=request.user)
+
     paginator = Paginator(known_list, 1)
 
     # check if known list is populated and user owns the related semester - if not, returns to notecard_list
@@ -378,15 +369,18 @@ def known_list(request, section_id):
 
 @login_required(login_url='/auth/login/')
 def unknown_list(request, section_id):
-
     try:
         section = Section.objects.get(id__iexact = section_id)
     except Section.DoesNotExist:
         raise Http404
-
+    cache_key = str(section_id) + 'unknown_list_cache_key'
+    unknown_list = cache.get(cache_key)
+    if not unknown_list:
+        unknown_list = Notecard.objects.filter(known=0, section=section)
+        unknown_list = unknown_list.filter(section__semester__user=request.user)
+        cache.set(cache_key, unknown_list, cache_time)
     semester = Semester.objects.get(section__id__iexact = section_id)
-    unknown_list = Notecard.objects.filter(known=0, section=section)
-    unknown_list = unknown_list.filter(section__semester__user=request.user)
+
     paginator = Paginator(unknown_list, 1)
 
     # check if known list is populated and user owns the related semester - if not, returns to notecard_list
@@ -395,7 +389,6 @@ def unknown_list(request, section_id):
             page = int(request.GET.get('page', '1'))
         except ValueError:
             page = 1
-
         try:
             unknown = paginator.page(page)
         except (EmptyPage, InvalidPage):
@@ -412,6 +405,11 @@ def toggle_known(request, notecard_id):
     # grabs the notecard id of the notecard where known toggle was clicked and
     # toggles the value. Returns to the known/unknown list after removing that notecard
     notecard = Notecard.objects.get(pk=notecard_id)
+    section_id = notecard.section.id
+    cache_key = str(section_id) + 'unknown_list_cache_key'
+    cache_key_2 = str(section_id) + 'known_list_cache_key'
+    cache_key_3 = str(section_id) + 'users_notecard_list_cache_key'
+    cache.delete_many([cache_key,cache_key_2,cache_key_3])
     if not notecard.known:
         notecard.known = 1
     else:
