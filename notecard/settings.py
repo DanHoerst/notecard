@@ -112,6 +112,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'notecard.urls'
 
 TEMPLATE_DIRS = (
+    "http://notecard-static.s3.amazonaws.com/templates",
     "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates",
 )
 
