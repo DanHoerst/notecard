@@ -81,7 +81,7 @@ AWS_ACCESS_KEY_ID = 'AKIAIAW7ZKU5GJYIONQA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'notecard-static'
 
-STATIC_URL = 'http://notecard-static.s3.amazonaws.com'
+STATIC_URL = 'http://notecard-static.s3.amazonaws.com/templates/static'
 
 # List of finder classes that know how to find static files in
 # various locations.
