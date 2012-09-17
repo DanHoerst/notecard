@@ -69,13 +69,19 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    "/app/notecard/templates/static/",
-    "/home/dan/workspace/notecard/notecard/templates/static",
     "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates/static",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
+# Storage for S3
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+AWS_ACCESS_KEY_ID = 'AKIAIAW7ZKU5GJYIONQA'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'notecard-static'
+
+STATIC_URL = 'http://notecard-static.s3.amazonaws.com/'
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -106,8 +112,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'notecard.urls'
 
 TEMPLATE_DIRS = (
-    "/app/notecard/templates",
-    "/home/dan/workspace/notecard/notecard/templates",
     "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates",
 )
 
@@ -123,6 +127,7 @@ INSTALLED_APPS = (
     'markdown',
     'south',
     'search',
+    'storages',
     'django.contrib.admin',
     'django.contrib.admindocs',
 )
@@ -146,12 +151,12 @@ LOGGING = {
 }
 
 ## Memcached
-CACHES = {
-    'default': {
-        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache'
-   }
-}
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache'
+#   }
+#}
 
 ## Heroku deprecated settings.py injection
-import dj_database_url
-DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
+#import dj_database_url
+#DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
