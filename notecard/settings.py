@@ -69,7 +69,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates/static",
+    "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates/static/",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -81,7 +81,7 @@ AWS_ACCESS_KEY_ID = 'AKIAIAW7ZKU5GJYIONQA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'notecard-static'
 
-STATIC_URL = 'http://notecard-static.s3.amazonaws.com/templates/static'
+STATIC_URL = 'http://notecard-static.s3.amazonaws.com/templates/static/'
 
 # List of finder classes that know how to find static files in
 # various locations.
