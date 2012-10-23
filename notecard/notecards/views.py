@@ -410,9 +410,6 @@ def toggle_known(request, notecard_id):
     cache_key_2 = str(section_id) + 'known_list_cache_key'
     cache_key_3 = str(section_id) + 'users_notecard_list_cache_key'
     cache.delete_many([cache_key,cache_key_2,cache_key_3])
-    if not notecard.known:
-        notecard.known = 1
-    else:
-        notecard.known = 0
+    notecard.known = not notecard.known
     notecard.save()
     return HttpResponseRedirect(request.POST['next'])

@@ -1,20 +1,19 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from notecard.registration.forms import LoginForm
+from notecard.registration.forms import *
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 
 def UserRegistration(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserCreateForm(request.POST)
         if form.is_valid():
             data = request.POST.copy()
             new_user = form.save(data)
             return HttpResponseRedirect("/")
         return render_to_response("registration/register.html", {'form': form}, context_instance=RequestContext(request))
     else:
-        form = UserCreationForm()
+        form = UserCreateForm()
         return render_to_response("registration/register.html", {'form': form}, context_instance=RequestContext(request))
     
 def LoginRequest(request):
