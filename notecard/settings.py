@@ -1,6 +1,6 @@
 # Django settings for notecard project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -153,12 +153,12 @@ LOGGING = {
 }
 
 ## Memcached
-#CACHES = {
-#    'default': {
-#        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache'
-#   }
-#}
+CACHES = {
+    'default': {
+        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache'
+   }
+}
 
-## Heroku deprecated settings.py injection
-#import dj_database_url
-#DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
+# Heroku deprecated settings.py injection
+import dj_database_url
+DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
