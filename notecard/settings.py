@@ -113,8 +113,6 @@ ROOT_URLCONF = 'notecard.urls'
 
 TEMPLATE_DIRS = (
     "/app/notecard/templates",
-    "http://notecard-static.s3.amazonaws.com/templates",
-    "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates",
 )
 
 INSTALLED_APPS = (
