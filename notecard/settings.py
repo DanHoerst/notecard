@@ -79,7 +79,7 @@ STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 AWS_ACCESS_KEY_ID = 'AKIAIAW7ZKU5GJYIONQA'
 AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'notecard-static'
+AWS_STORAGE_BUCKET_NAME = 'devnotecard-static'
 
 STATIC_URL = 'http://notecard-static.s3.amazonaws.com/templates/static'
 
@@ -114,7 +114,7 @@ ROOT_URLCONF = 'notecard.urls'
 TEMPLATE_DIRS = (
     "/app/notecard/templates",
     "/app/devnotecard/templates",
-    "http://notecard-static.s3.amazonaws.com/templates",
+    "http://notecard-static.s3.amazonaws.com/templates/",
     "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates",
 )
 
