@@ -81,7 +81,7 @@ AWS_ACCESS_KEY_ID = 'AKIAIAW7ZKU5GJYIONQA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'devnotecard-static'
 
-STATIC_URL = 'http://notecard-static.s3.amazonaws.com/templates/static'
+STATIC_URL = 'http://devnotecard-static.s3.amazonaws.com/templates/static'
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -98,7 +98,7 @@ SECRET_KEY = '*sl_28!(bp&(&e&nq6ni5+^zqg%)il3fd&*90u2c+k*8$y^vos'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.eggs.Loader',
+    #'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -112,10 +112,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'notecard.urls'
 
 TEMPLATE_DIRS = (
-    "/app/notecard/templates",
-    "/app/devnotecard/templates",
-    "http://notecard-static.s3.amazonaws.com/templates/",
-    "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates",
+    "http://devnotecard-static.s3.amazonaws.com/templates",
 )
 
 INSTALLED_APPS = (
