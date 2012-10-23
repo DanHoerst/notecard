@@ -69,7 +69,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates/static/",
+    "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates/static",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -98,7 +98,7 @@ SECRET_KEY = '*sl_28!(bp&(&e&nq6ni5+^zqg%)il3fd&*90u2c+k*8$y^vos'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -112,7 +112,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'notecard.urls'
 
 TEMPLATE_DIRS = (
-    "/app/notecard/templates",
+#    "/app/notecard/templates",
     "http://notecard-static.s3.amazonaws.com/templates",
     "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates",
 )
@@ -153,12 +153,12 @@ LOGGING = {
 }
 
 ## Memcached
-CACHES = {
-    'default': {
-        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache'
-   }
-}
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache'
+#   }
+#}
 
 # Heroku deprecated settings.py injection
-import dj_database_url
-DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
+#import dj_database_url
+#DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
