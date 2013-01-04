@@ -11,94 +11,58 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'notecards',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': os.environ['db_ENGINE'], # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.environ['db_NAME'], # Or path to database file if using sqlite3.
+        'USER': os.environ['db_USER'], # Not used with sqlite3.
+        'PASSWORD': '', # Not used with sqlite3.
+        'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '', # Set to empty string for default. Not used with sqlite3.
     }
 }
 
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use thhe same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
 TIME_ZONE = 'America/Chicago'
 
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
 USE_I18N = True
 
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale
 USE_L10N = True
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = ''
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = ''
 
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = ''
 
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = os.environ['static_URL']
 
-# URL prefix for admin static files -- CSS, JavaScript and images.
-# Make sure to use a trailing slash.
-# Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = os.environ['admin_MEDIA']
 
-# Additional locations of static files
 STATICFILES_DIRS = (
-    "C:/Users/Dan Hoerst/Documents/notecard/notecard/templates/static/",
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    'C:/Users/Dan Hoerst/Documents/notecard/notecard/templates/static/',
 )
+
 # Storage for S3
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-AWS_ACCESS_KEY_ID = 'AKIAIAW7ZKU5GJYIONQA'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'notecard-static'
+AWS_ACCESS_KEY_ID = os.environ['aws_KEYID']
+AWS_SECRET_ACCESS_KEY = os.environ['aws_ACCESSKEY']
+AWS_STORAGE_BUCKET_NAME = os.environ['s3_BUCKET']
 
-STATIC_URL = 'http://notecard-static.s3.amazonaws.com/templates/static'
+STATIC_URL = os.environ['s3_URL']
 
-# List of finder classes that know how to find static files in
-# various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '*sl_28!(bp&(&e&nq6ni5+^zqg%)il3fd&*90u2c+k*8$y^vos'
+secret_KEY=os.environ['secret_KEY']
 
-# List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+# 'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -112,7 +76,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'notecard.urls'
 
 TEMPLATE_DIRS = (
-    "/app/notecard/templates",
+    os.environ['template_DIR']
 )
 
 INSTALLED_APPS = (
@@ -153,10 +117,10 @@ LOGGING = {
 ## Memcached
 CACHES = {
     'default': {
-        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache'
+        'BACKEND': os.environ['cache_BACKEND']
    }
 }
 
 # Heroku deprecated settings.py injection
 import dj_database_url
-DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
+DATABASES = {'default': dj_database_url.config(default=os.environ['dj_DBURL'])}
