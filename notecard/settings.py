@@ -1,4 +1,5 @@
 # Django settings for notecard project.
+import os
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -11,9 +12,9 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ['db_ENGINE'], # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.environ['db_NAME'], # Or path to database file if using sqlite3.
-        'USER': os.environ['db_USER'], # Not used with sqlite3.
+        'ENGINE': os.environ.get['db_ENGINE'], # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.environ.get['db_NAME'], # Or path to database file if using sqlite3.
+        'USER': os.environ.get['db_USER'], # Not used with sqlite3.
         'PASSWORD': '', # Not used with sqlite3.
         'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '', # Set to empty string for default. Not used with sqlite3.
@@ -36,9 +37,9 @@ MEDIA_URL = ''
 
 STATIC_ROOT = ''
 
-STATIC_URL = os.environ['static_URL']
+STATIC_URL = os.environ.get['static_URL']
 
-ADMIN_MEDIA_PREFIX = os.environ['admin_MEDIA']
+ADMIN_MEDIA_PREFIX = os.environ.get['admin_MEDIA']
 
 STATICFILES_DIRS = (
     'C:/Users/Dan Hoerst/Documents/notecard/notecard/templates/static/',
@@ -47,11 +48,11 @@ STATICFILES_DIRS = (
 # Storage for S3
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-AWS_ACCESS_KEY_ID = os.environ['aws_KEYID']
-AWS_SECRET_ACCESS_KEY = os.environ['aws_ACCESSKEY']
-AWS_STORAGE_BUCKET_NAME = os.environ['s3_BUCKET']
+AWS_ACCESS_KEY_ID = os.environ.get['aws_KEYID']
+AWS_SECRET_ACCESS_KEY = os.environ.get['aws_ACCESSKEY']
+AWS_STORAGE_BUCKET_NAME = os.environ.get['s3_BUCKET']
 
-STATIC_URL = os.environ['s3_URL']
+STATIC_URL = os.environ.get['s3_URL']
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -59,7 +60,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-secret_KEY=os.environ['secret_KEY']
+secret_KEY=os.environ.get['secret_KEY']
 
 TEMPLATE_LOADERS = (
 # 'django.template.loaders.eggs.Loader',
@@ -76,7 +77,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'notecard.urls'
 
 TEMPLATE_DIRS = (
-    os.environ['template_DIR']
+    os.environ.get['template_DIR']
 )
 
 INSTALLED_APPS = (
@@ -117,10 +118,10 @@ LOGGING = {
 ## Memcached
 CACHES = {
     'default': {
-        'BACKEND': os.environ['cache_BACKEND']
+        'BACKEND': os.environ.get['cache_BACKEND']
    }
 }
 
 # Heroku deprecated settings.py injection
 import dj_database_url
-DATABASES = {'default': dj_database_url.config(default=os.environ['dj_DBURL'])}
+DATABASES = {'default': dj_database_url.config(default=os.environ.get['dj_DBURL'])}
