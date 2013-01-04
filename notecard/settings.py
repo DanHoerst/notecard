@@ -102,7 +102,7 @@ INSTALLED_APPS = (
 ## Memcached
 CACHES = {
     'default': {
-        'BACKEND': os.environ.get('cache_BACKEND')
+        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache'
    }
 }
 
