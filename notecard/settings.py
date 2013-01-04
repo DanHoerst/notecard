@@ -1,5 +1,6 @@
 # Django settings for notecard project.
 import os
+import sys
 
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', ''))
 TEMPLATE_DEBUG = DEBUG
@@ -101,6 +102,11 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
+		'console':{
+		'level':'DEBUG',
+		'class':'logging.StreamHandler',
+		'formatter': 'simple'
+        },
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
