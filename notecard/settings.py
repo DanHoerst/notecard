@@ -13,9 +13,9 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('db_ENGINE'), # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.environ.get('db_NAME'), # Or path to database file if using sqlite3.
-        'USER': os.environ.get('db_USER'), # Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'notecard', # Or path to database file if using sqlite3.
+        'USER': 'root', # Not used with sqlite3.
         'PASSWORD': '', # Not used with sqlite3.
         'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '', # Set to empty string for default. Not used with sqlite3.
@@ -38,9 +38,9 @@ MEDIA_URL = ''
 
 STATIC_ROOT = ''
 
-STATIC_URL = os.environ.get('static_URL')
+STATIC_URL = '/static/'
 
-ADMIN_MEDIA_PREFIX = os.environ.get('admin_MEDIA')
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = (
     'C:/Users/Dan Hoerst/Documents/notecard/notecard/templates/static/',
@@ -64,8 +64,10 @@ STATICFILES_FINDERS = (
 secret_KEY=os.environ.get('secret_KEY')
 
 TEMPLATE_LOADERS = (
-# 'django.template.loaders.eggs.Loader',
-)
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+    #     'django.template.loaders.eggs.Loader',
+    )
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -78,7 +80,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'notecard.urls'
 
 TEMPLATE_DIRS = (
-    os.environ.get('template_DIR')
+    '/app/notecard/templates',
+    '/home/dan/notecard/notecard/templates/',
 )
 
 INSTALLED_APPS = (
@@ -108,4 +111,4 @@ CACHES = {
 
 # Heroku deprecated settings.py injection
 import dj_database_url
-DATABASES = {'default': dj_database_url.config(default=os.environ.get('dj_DBURL'))}
+DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
