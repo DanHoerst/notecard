@@ -7,5 +7,3 @@ venv
 .gitignore~
 *.*~
 .idea/
-local_settings.py
-prod_settings.py
