@@ -1,13 +1,11 @@
 # Django settings for notecard project.
-import os
-import sys
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     ('dan hoerst', 'dhoerst1@gmail.com'),
-)
+    )
 
 MANAGERS = ADMINS
 
@@ -16,7 +14,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'notecard', # Or path to database file if using sqlite3.
         'USER': 'root', # Not used with sqlite3.
-        'PASSWORD': '', # Not used with sqlite3.
+        'PASSWORD': 'administrator', # Not used with sqlite3.
         'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '', # Set to empty string for default. Not used with sqlite3.
     }
@@ -36,7 +34,7 @@ MEDIA_ROOT = ''
 
 MEDIA_URL = ''
 
-STATIC_ROOT = ''
+STATIC_ROOT = '/'
 
 STATIC_URL = '/static/'
 
@@ -44,24 +42,25 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = (
     'C:/Users/Dan Hoerst/Documents/notecard/notecard/templates/static/',
-)
+    '/home/dan/notecard/notecard/templates/static/',
+    )
 
 # Storage for S3
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-AWS_ACCESS_KEY_ID = os.environ.get('aws_KEYID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('aws_ACCESSKEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('s3_BUCKET')
+AWS_ACCESS_KEY_ID = 'AKIAIAW7ZKU5GJYIONQA '
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'notecard-static'
 
-STATIC_URL = os.environ.get('s3_URL')
+STATIC_URL = 'http://notecard-static.s3.amazonaws.com/templates/static'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
-)
+    )
 
-secret_KEY=os.environ.get('secret_KEY')
+secret_KEY='6TPymdgH5mPRh1ijNu6UXGsM1Ajju7VLC5YJgt62Yys5kh1Xcj'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -75,14 +74,14 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-)
+    )
 
 ROOT_URLCONF = 'notecard.urls'
 
 TEMPLATE_DIRS = (
     '/app/notecard/templates',
     '/home/dan/notecard/notecard/templates/',
-)
+    )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -99,7 +98,7 @@ INSTALLED_APPS = (
     'storages',
     'django.contrib.admin',
     'django.contrib.admindocs',
-)
+    )
 
 
 ## Memcached
@@ -110,10 +109,5 @@ CACHES = {
 }
 
 # Heroku deprecated settings.py injection
-import dj_database_url
-DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
-
-try:
-    from local_settings import *
-except ImportError:
-    pass
+#import dj_database_url
+#DATABASES = {'default': dj_database_url.config(default=os.environ.get('dj_DBURL'))}
