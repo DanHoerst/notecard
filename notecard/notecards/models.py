@@ -1,7 +1,7 @@
 from django.db import models
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-from notecard.markdown import Markdown
+from notecard.markdown import markdown
 
 class Semester(models.Model):
     semester_name = models.CharField(max_length=50)

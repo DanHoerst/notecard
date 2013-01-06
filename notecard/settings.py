@@ -112,3 +112,8 @@ CACHES = {
 # Heroku deprecated settings.py injection
 import dj_database_url
 DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
