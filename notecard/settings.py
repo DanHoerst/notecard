@@ -109,5 +109,5 @@ CACHES = {
 }
 
 # Heroku deprecated settings.py injection
-#import dj_database_url
-#DATABASES = {'default': dj_database_url.config(default=os.environ.get('dj_DBURL'))}
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
