@@ -6,5 +6,7 @@ venv
 *.py~
 .gitignore~
 *.*~
+*.*~~
 .idea/
 local_settings.py
+*~
