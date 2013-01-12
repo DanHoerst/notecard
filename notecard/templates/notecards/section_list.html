@@ -3,38 +3,33 @@
 {% block title %} Section List | {% endblock %}
 
 {% block content %}
-<div id='main'>
-<table id='notecards'>
-    <thead>
-      <tr>
-        <th class="name">{{ semester.semester_name }}</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for section in section_list.object_list %}
-      <tr>
-        <td><a href="{% url notecards.views.notecard_list section.id %}">{{ section.section_name }}</a><a class ="edit" href="{% url notecards.views.edit_section section.id %}"> Edit </a></td>
-      </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<div class="pagination">
-  <span class="step-links">
-	{% if section_list.has_previous %}
-      <a class="navlink" href="?page={{ section_list.previous_page_number }}">previous</a>
-		{% endif %}
-		
-	  <span class="current">
-		Page {{ section_list.number }} of {{ section_list.paginator.num_pages }}
-	  </span>
-		
-	{% if section_list.has_next %}
-	  <a class="navlink" href="?page={{ section_list.next_page_number }}">next</a>
-	{% endif %}
-  </span>
-</div>
-<FORM id="modify" METHOD="LINK" ACTION="{% url notecards.views.new_section semester.id %}">
-<INPUT id ="myButton" TYPE="submit" VALUE="Add New Section">
-</FORM>
-</div>
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <div class="hero-unit">
+        <h2>
+        <ul class="breadcrumb">
+            <li><a href="/">Semester List</a> <span class="divider">/</span></li>
+            <li class="active">{{ semester.semester_name }}</li>
+        </ul>
+        </h2>
+        <p><a class="btn btn-primary btn-large" href="{% url notecards.views.new_section semester.id %}">Add New Section &raquo;</a></p>
+    </div>
+    <!-- Example row of columns -->
+    {% if section_list.object_list %}
+    <div class="row">
+        {% for section in section_list.object_list %}
+            <div class="span4">
+                <h2>{{ section.section_name }}</h2>
+                <p><a class="btn btn-primary btn-small" href="{% url notecards.views.notecard_list section.id %}">View section &raquo;</a></p>
+                <p><a class ="btn btn-primary btn-small" href="{% url notecards.views.edit_section section.id %}"> Edit &raquo;</a></p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="hero-unit">
+        <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Sections:</h4>
+            Create your first section by clicking the "Add New Section" button above. For example, create a section called "Exam 1". Once created, view the section to start making notecards.
+        </div>
+    {% endif %}
+    </div>
 {% endblock %}

@@ -3,38 +3,33 @@
 {% block title %} Welcome, {{ user.username }}! | {% endblock %}
 
 {% block content %}
-<div id='main'>
-<table id='notecards'>
-	<thead>
-	  <tr>
-        <th class="name">Semester List<br></th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {% for sem in semester_list.object_list %}
-		<tr>
-		  <td><a href="{% url notecards.views.section_list sem.id %}">{{ sem.semester_name }}</a><a class ="edit" href="{% url notecards.views.edit_semester sem.id %}"> Edit </a></td>
-	    </tr>
-	  {% endfor %}
-	</tbody>
-</table>
-<div class="pagination">
-  <span class="step-links">
-	{% if semester_list.has_previous %}
-      <a class="navlink" href="?page={{ semester_list.previous_page_number }}">previous</a>
-		{% endif %}
-		
-	  <span class="current">
-		Page {{ semester_list.number }} of {{ semester_list.paginator.num_pages }}
-	  </span>
-		
-	{% if semester_list.has_next %}
-	  <a class="navlink" href="?page={{ semester_list.next_page_number }}">next</a>
-	{% endif %}
-  </span>
-</div>
-<FORM id="modify" METHOD="LINK" ACTION="{% url notecards.views.new_semester %}">
-<INPUT id ="myButton" TYPE="submit" VALUE="Add New Semester">
-</FORM>
-</div>
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <div class="hero-unit">
+        <h2>
+            <ul class="breadcrumb">
+                <li class="active">Semester List</li>
+            </ul>
+        </h2>
+        <p><a class="btn btn-primary btn-large" href="{% url notecards.views.new_semester %}">Add New Semester &raquo;</a></p>
+    </div>
+    <!-- Example row of columns -->
+
+        {% if semester_list.object_list %}
+            <div class="row">
+                {% for sem in semester_list.object_list %}
+                <div class="span4">
+                    <h2>{{ sem.semester_name }}</h2>
+                    <p><a class="btn btn-primary btn-small" href="{% url notecards.views.section_list sem.id %}">View semester &raquo;</a></p>
+                    <p><a class ="btn btn-primary btn-small" href="{% url notecards.views.edit_semester sem.id %}"> Edit &raquo;</a></p>
+                </div>
+                {% endfor %}
+        {% else %}
+            <div class="hero-unit">
+                <div class="alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4>Welcome!</h4>
+                    Create your first semester by clicking the "Add New Semester" button above. For example, create a semester called "Winter 2013". Once created, view the semester to create a section.
+                </div>
+        {% endif %}
+    </div>
 {% endblock %}

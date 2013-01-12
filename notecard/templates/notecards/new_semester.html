@@ -1,30 +1,119 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title> New Semester | NoteCards! </title>
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/stylesheet.css">
+    <meta charset="utf-8">
+    <title>New Semester | NoteCards!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="{{ STATIC_URL }}/assets/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <link href="{{ STATIC_URL }}/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
 </head>
 
 <body>
-    <div id='main'>
-    <h1 class='title'><a class="title" href="{% url notecards.views.semester_list %}">NoteCards!</a></h1>
-    <table id='notecards'>
-	    <thead>
-	      <tr>
-	        <th class="name">Add New Semester</th>
-	      </tr>
-	    </thead>
-	    <tbody>
-	      <tr>
-			{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-			<form id="modify" action="" method="post">
-			    {% csrf_token %}
-			    <table id='new' align="center">{{ form.as_table }}</table>
-			    <input id="myButton" type="submit" value="Add New Semester" />
-			</form>
-	      </tr>
-	    </tbody>
-	</table>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">Notecards!</a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    {% if user.is_authenticated %}
+
+                    {% endif %}
+                </ul>
+                <ul class="nav pull-right">
+                    {% if user.is_authenticated %}
+                        <form class="navbar-search pull-left" method="get" action="/search/">
+                            <input type="text" class="search-query" name="q" id="id_q" value="{{ query }}" placeholder="Search Notecards"/>
+                        </form>
+                        <li><a href="#">Logged in as {{ user.username }}.</a></li>
+                        <li><a class href="/auth/logout/">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    {% block content %}
+        <!-- Main hero unit for a primary marketing message or call to action -->
+        <div class="hero-unit">
+            <h2>
+                <ul class="breadcrumb">
+                    <li class="active">Add New Semester</li>
+                </ul>
+            </h2>
+        </div>
+        <!-- Example row of columns -->
+        <div class="hero-unit">
+            <table id="edit">
+                <tbody>
+                <tr>
+                    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+                    <form id="modify" action="" method="post">
+                        {% csrf_token %}
+                        <table id="modifytable">{{ form.as_table }}</table>
+                        <input class="btn btn-primary btn-small" id="myButton" type="submit" value={% if edit %}"Edit Semester"{% else %}"Add New Semester"{% endif %}/>
+                    </form>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endblock %}
+
+
+    <hr>
+
+    <footer>
+        <p>&copy; Dan Hoerst 2013</p>
+    </footer>
+
+</div> <!-- /container -->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{ STATIC_URL }}/assets/js/jquery.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-transition.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-alert.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-modal.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-dropdown.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-scrollspy.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-tab.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-tooltip.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-popover.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-button.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-collapse.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-carousel.js"></script>
+<script src="{{ STATIC_URL }}/assets/js/bootstrap-typeahead.js"></script>
+
 </body>
 </html>
