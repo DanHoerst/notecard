@@ -31,5 +31,14 @@
                     Create your first semester by clicking the "Add New Semester" button above. For example, create a semester called "Winter 2013". Once created, view the semester to create a section.
                 </div>
         {% endif %}
+        </div>
+    <div class="pagination pagination-centered">
+        <ul>
+            <li {% if not semester_list.has_previous %}class="disabled"{% endif %}><a class="navlink" href="?page={% if semester_list.has_previous %}{{ semester_list.previous_page_number }}{% endif %}"><span>Prev</span></a></li>
+            {% for page in paginator.page_range %}
+                <li {% if semester_list.number == page %}class="active"{% endif %}><a href="?page={{ page }}"><span>{{ page }}</span></a></li>
+            {% endfor %}
+            <li {% if not semester_list.has_next %}class="disabled"{% endif %}><a class="navlink" href="?page={% if semester_list.has_next %}{{ semester_list.next_page_number }}{% endif %}"><span>Next</span></a></li>
+        </ul>
     </div>
 {% endblock %}

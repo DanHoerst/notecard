@@ -32,4 +32,13 @@
         </div>
     {% endif %}
     </div>
+    <div class="pagination pagination-centered">
+        <ul>
+            <li {% if not section_list.has_previous %}class="disabled"{% endif %}><a class="navlink" href="?page={% if section_list.has_previous %}{{ section_list.previous_page_number }}{% endif %}"><span>Prev</span></a></li>
+            {% for page in paginator.page_range %}
+                <li {% if section_list.number == page %}class="active"{% endif %}><a href="?page={{ page }}"><span>{{ page }}</span></a></li>
+            {% endfor %}
+            <li {% if not section_list.has_next %}class="disabled"{% endif %}><a class="navlink" href="?page={% if section_list.has_next %}{{ section_list.next_page_number }}{% endif %}"><span>Next</span></a></li>
+        </ul>
+    </div>
 {% endblock %}

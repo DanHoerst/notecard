@@ -40,11 +40,11 @@
 
     <div class="pagination pagination-centered">
         <ul>
-            <li {% if not notecard_list.has_previous %}class="disabled"{% endif %}><a class="navlink" href="?page={{ notecard_list.previous_page_number }}">Prev</a></li>
+            <li {% if not notecard_list.has_previous %}class="disabled"{% endif %}><a class="navlink" href="?page={% if notecard_list.has_previous %}{{ notecard_list.previous_page_number }}{% endif %}"><span>Prev</span></a></li>
             {% for page in paginator.page_range %}
-                <li><a class="navlink" href="?page={{ page }}">{{ page }}</a></li>
+                <li {% if notecard_list.number == page %}class="active"{% endif %}><a href="?page={{ page }}"><span>{{ page }}</span></a></li>
             {% endfor %}
-            <li {% if not notecard_list.has_next %}class="disabled"{% endif %}><a class="navlink" href="?page={{ notecard_list.next_page_number }}">Next</a></li>
+            <li {% if not notecard_list.has_next %}class="disabled"{% endif %}><a class="navlink" href="?page={% if notecard_list.has_next %}{{ notecard_list.next_page_number }}{% endif %}"><span>Next</span></a></li>
         </ul>
     </div>
 {% endblock %}

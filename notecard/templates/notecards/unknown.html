@@ -52,7 +52,7 @@
         <ul>
             <li {% if not unknown.has_previous %}class="disabled"{% endif %}><a class="navlink" href="?page={{ unknown.previous_page_number }}">Prev</a></li>
             {% for page in paginator.page_range %}
-                <li><a class="navlink" href="?page={{ page }}">{{ page }}</a></li>
+                <li {% if unknown.number == page %}class="active"{% endif %}><a class="navlink" href="?page={{ page }}">{{ page }}</a></li>
             {% endfor %}
             <li {% if not unknown.has_next %}class="disabled"{% endif %}><a class="navlink" href="?page={{ unknown.next_page_number }}">Next</a></li>
         </ul>

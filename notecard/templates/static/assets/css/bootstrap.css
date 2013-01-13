@@ -147,7 +147,8 @@ a:hover {
 }
 .span4 {
   width: 300px;
-  height: 300px;
+  height: 150px;
+  position: relative;
 }
 .span5 {
   width: 380px;
@@ -2142,6 +2143,14 @@ button.btn.small, input[type="submit"].btn.small {
 .btn-small .caret {
   margin-top: 4px;
 }
+
+a#bottom.btn.btn-primary.btn-small{
+    position: absolute;
+    right:    0;
+    bottom:   0;
+    text-align: center;
+}
+
 .alert {
   padding: 8px 35px 8px 14px;
   margin-bottom: 18px;

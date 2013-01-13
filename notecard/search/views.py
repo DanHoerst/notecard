@@ -22,4 +22,4 @@ def search(request):
    
     notecard_list = paginator.page(page)
     context = RequestContext(request)
-    return render_to_response('notecards/search.html', {"results": results, "notecard_list": notecard_list,}, context_instance=context)
+    return render_to_response('notecards/search.html', {"results": results, "notecard_list": notecard_list, "paginator": paginator,}, context_instance=context)
