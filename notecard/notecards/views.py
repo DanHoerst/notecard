@@ -22,15 +22,15 @@ def semester_list(request):
     if not semester:
         semester = Semester.objects.filter(user=request.user)
         cache.set(cache_key, semester, cache_time)
-        
+
     ## paginate each semester
     paginator = Paginator(semester, 6)
-                
+
     try:
         page = int(request.GET.get('page', '1'))
     except ValueError:
         page = 1
-                
+
     try:
         semester_list = paginator.page(page)
     except (EmptyPage, InvalidPage):
@@ -50,7 +50,7 @@ def section_list(request, semester_id):
             cache.set(cache_key, semester, cache_time)
     except Semester.DoesNotExist:
         raise Http404
-    
+
     # get all sections related to the semester owned by the user
     cache_key_2 = str(semester_id) + 'users_section_list_cache_key'
     section = cache.get(cache_key_2)
@@ -61,12 +61,12 @@ def section_list(request, semester_id):
 
     # pagination
     paginator = Paginator(section, 6)
-        
+
     try:
         page = int(request.GET.get('page', '1'))
     except ValueError:
         page = 1
-            
+
     try:
         section_list = paginator.page(page)
     except (EmptyPage, InvalidPage):
@@ -79,7 +79,7 @@ def section_list(request, semester_id):
     else:
         url = reverse('semester_list')
         return HttpResponseRedirect(url)
-        
+
 @login_required(login_url='/auth/login/')
 def notecard_list(request, section_id):
     # Look up the section or raise 404
@@ -110,12 +110,12 @@ def notecard_list(request, section_id):
 
     # pagination
     paginator = Paginator(notecard, 6)
-        
+
     try:
         page = int(request.GET.get('page', '1'))
     except ValueError:
         page = 1
-            
+
     try:
         notecard_list = paginator.page(page)
     except (EmptyPage, InvalidPage):
@@ -185,7 +185,7 @@ def edit_semester(request, semester_id):
 
     if semester.user != request.user:
         raise Http404
-    
+
     if request.method == 'POST': #if the form has been submitted
         form = SemesterForm(request.POST, instance=semester) # a form bound to the POST data
         if form.is_valid(): #all validation rules pass
@@ -194,10 +194,10 @@ def edit_semester(request, semester_id):
             semester.save()
             cache_key_2 = str(request.user) + 'users_semester_list_cache_key'
             cache.delete_many([cache_key, cache_key_2])
-            return HttpResponseRedirect('/')    
+            return HttpResponseRedirect('/')
     else:
         form = SemesterForm(initial={'semester_name': semester.semester_name})
-    #Package up some variables to return
+        #Package up some variables to return
     vars['semester'] = semester
     vars['form'] = form
     context = RequestContext(request)
@@ -207,7 +207,7 @@ def edit_semester(request, semester_id):
 def new_section(request, semester_id):
     vars = {}
     semester = Semester.objects.get(id__iexact=semester_id)
-    
+
     # check if semester user is logged in user
     if semester.user != request.user:
         raise Http404
@@ -225,7 +225,7 @@ def new_section(request, semester_id):
             return HttpResponseRedirect(url)
     else:
         form = SectionForm() # an unbound form
-    #Package up some variables to return
+        #Package up some variables to return
     vars['semester'] = semester
     vars['form'] = form
     context = RequestContext(request)
@@ -239,7 +239,7 @@ def edit_section(request, section_id):
     if not section:
         section = get_object_or_404(Section, pk=section_id)
         cache.set(cache_key, section, cache_time)
-    
+
     # check if section's user is logged in user
     if section.semester.user != request.user:
         raise Http404
@@ -257,7 +257,7 @@ def edit_section(request, section_id):
             return HttpResponseRedirect(url)
     else:
         form = SectionForm(initial={'section_name': section.section_name}) # an unbound form
-    #Package up some variables to return
+        #Package up some variables to return
     vars['section'] = section
     vars['form'] = form
     context = RequestContext(request)
@@ -274,7 +274,7 @@ def new_notecard(request, section_id):
 
     if section.semester.user != request.user:
         raise Http404
-    
+
     if request.method == 'POST': #if the form has been submitted
         form = NotecardForm(request.POST) # a form bound to the POST data
         if form.is_valid(): #all validation rules pass
@@ -290,7 +290,7 @@ def new_notecard(request, section_id):
             return HttpResponseRedirect(url)
     else:
         form = NotecardForm() # an unbound form
-    #Package up some variables to return
+        #Package up some variables to return
     vars['section'] = section
     vars['form'] = form
     context = RequestContext(request)
@@ -304,10 +304,10 @@ def edit_notecard(request, notecard_id):
     if not notecard:
         notecard = get_object_or_404(Notecard, pk=notecard_id)
         cache.set(cache_key, notecard, cache_time)
-    ## if notecard found, sets section_id for URL reverse after edit submission
+        ## if notecard found, sets section_id for URL reverse after edit submission
     section_id = notecard.section.id
     if notecard.section.semester.user != request.user:
-            raise Http404
+        raise Http404
     form = NotecardForm(request.POST, instance=notecard)
     if form.is_valid():
         cache_key_2 = str(section_id) + 'users_notecard_list_cache_key'
@@ -328,7 +328,7 @@ def edit_notecard(request, notecard_id):
             return HttpResponseRedirect(url)
     else:
         form = NotecardForm(initial={'notecard_name': notecard.notecard_name, 'notecard_body': notecard.notecard_body}) # an unbound form
-    #Package up some variables to return
+        #Package up some variables to return
     vars['notecard'] = notecard
     vars['form'] = form
     context = RequestContext(request)

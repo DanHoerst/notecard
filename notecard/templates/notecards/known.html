@@ -5,33 +5,36 @@
 {% block content %}
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
-        <h2>
+            <h2>
             <ul class="breadcrumb">
                 <li><a href="/">Semester List</a> <span class="divider">/</span></li>
                 <li><a href="{% url section_list section.semester.id %}">{{ section.semester }}</a> <span class="divider">/</span></li>
                 <li><a href="{% url notecard_list section.id %}">{{ section.section_name }}</a> <span class="divider">/</span></li>
                 <li class="active">Known Notecards</li>
             </ul>
-        </h2>
-        <a class ="btn btn-primary btn-small " id="myButton" type='button' onclick='changeText()'/>
-        <span>View Answer &raquo;</span>
-        <span style="display:none">View Question &raquo;</span>
-        </a>
+            </h2>
         {% for notecard in known.object_list %}
-    <p><a class ="btn btn-primary btn-mini" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit &raquo;</a></p>
+        <div class="btn-group">
+            <a class ="btn btn-primary btn-small" id="myButton" type='button' onclick='changeText()'/>
+            <span>View Answer &raquo;&raquo;</span>
+            <span style="display:none">View Question &raquo;</span>
+            </a>
+        </div>
+        <div class="btn-group">
             <form id="modify" method=POST action="{% url notecards.views.toggle_known notecard.pk %}">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{% url notecards.views.known_list notecard.section.id %}?page={{known.number}}">
                 <input class ="btn btn-danger btn-small" id ="myButton" type="submit" value="Send to Unknown Pile">
             </form>
+        </div>
+        <p><a class ="btn btn-inverse btn-mini" href="{% url notecards.views.edit_notecard notecard.id %}">Edit &raquo;</a></p>
     </div>
     <div class="row">
         <ul class="pager">
-            <li class="previous"><a class="navlink" href="?page={{ known.previous_page_number }}">Prev</a></li>
-            <li class="next"><a class="navlink" href="?page={{ known.next_page_number }}">Next</a></li>
+            <li><a class="navlink" href="?page={{ known.previous_page_number }}">Prev</a></li>
+            <li><a class="navlink" href="?page={{ known.next_page_number }}">Next</a></li>
         </ul>
         <div class="hero-unit" id="notecard">
-
                 <h2 id="boldStuff">{{ notecard.notecard_name_html|safe }}</h2>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
                 <script type="text/javascript">
@@ -49,8 +52,8 @@
                         }
                     }
                 </script>
-                </div>
-            {% endfor %}
+        </div>
+        {% endfor %}
     </div>
     <div class="pagination pagination-centered">
         <ul>

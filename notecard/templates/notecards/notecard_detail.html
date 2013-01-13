@@ -17,6 +17,7 @@
         <span>View Answer &raquo;</span>
         <span style="display:none">View Question &raquo;</span>
         </a>
+        <p><a class ="btn btn-inverse btn-mini" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit &raquo;</a></p>
     </div>
     <!-- Example row of columns -->
     <div class="row">
@@ -39,6 +40,5 @@
                 }
             </script>
         </div>
-        <p><a class ="btn btn-primary btn-mini" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit &raquo;</a></p>
     </div>
 {% endblock %}

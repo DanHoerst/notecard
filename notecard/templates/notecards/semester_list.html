@@ -13,24 +13,24 @@
         <p><a class="btn btn-primary btn-large" href="{% url notecards.views.new_semester %}">Add New Semester &raquo;</a></p>
     </div>
     <!-- Example row of columns -->
-        {% if semester_list.object_list %}
-            <div class="row">
-                {% for sem in semester_list.object_list %}
-                <div class="span4">
-                    <h2>{{ sem.semester_name }}</h2>
-                    <p><a class="btn btn-primary btn-small" href="{% url notecards.views.section_list sem.id %}">View semester &raquo;</a></p>
-                    <p><a class ="btn btn-primary btn-mini" href="{% url notecards.views.edit_semester sem.id %}"> Edit &raquo;</a></p>
-                </div>
-                {% endfor %}
-        {% else %}
-            <div class="hero-unit">
-                <div class="alert alert-info">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <h4>Welcome!</h4>
-                    Create your first semester by clicking the "Add New Semester" button above. For example, create a semester called "Winter 2013". Once created, view the semester to create a section.
-                </div>
-        {% endif %}
+    {% if semester_list.object_list %}
+        <div class="row">
+        {% for sem in semester_list.object_list %}
+            <div class="span4">
+                <h2>{{ sem.semester_name }}</h2>
+                <p><a class="btn btn-primary btn-small" href="{% url notecards.views.section_list sem.id %}">View semester &raquo;</a></p>
+                <p><a class ="btn btn-inverse btn-mini" href="{% url notecards.views.edit_semester sem.id %}"> Edit &raquo;</a></p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="hero-unit">
+        <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Welcome!</h4>
+            Create your first semester by clicking the "Add New Semester" button above. For example, create a semester called "Winter 2013". Once created, view the semester to create a section.
         </div>
+    {% endif %}
+</div>
     <div class="pagination pagination-centered">
         <ul>
             <li {% if not semester_list.has_previous %}class="disabled"{% endif %}><a class="navlink" href="?page={% if semester_list.has_previous %}{{ semester_list.previous_page_number }}{% endif %}"><span>Prev</span></a></li>

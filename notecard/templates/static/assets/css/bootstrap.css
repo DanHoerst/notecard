@@ -315,6 +315,10 @@ h6 {
   text-rendering: optimizelegibility;
 }
 
+h2#boldStuff{
+    padding-top: 30px;
+}
+
 #notecard.hero-unit
 {
     background-image: url("../img/notecard.jpg");
@@ -327,7 +331,8 @@ h6 {
     text-align: center;
     overflow: hidden;
     min-height: 300px;
-
+    padding:1px;
+    border:1px solid #021a40;
 }
 table#modifytable{
     line-height: 200%;
@@ -2023,6 +2028,7 @@ button.btn.small, input[type="submit"].btn.small {
   position: relative;
   *zoom: 1;
   *margin-left: .3em;
+  display: inline-block;
 }
 .btn-group:before, .btn-group:after {
   display: table;

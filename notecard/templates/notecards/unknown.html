@@ -13,23 +13,28 @@
                 <li class="active">Unknown Notecards</li>
             </ul>
         </h2>
-        <a class ="btn btn-primary btn-small" id="myButton" type='button' onclick='changeText()'/>
-        <span>View Answer &raquo;</span>
-        <span style="display:none">View Question &raquo;</span>
-        </a>
+
         {% for notecard in unknown.object_list %}
-    <p><a class ="btn btn-primary btn-mini" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit &raquo;</a></p>
-    <form id="modify" method=POST action="{% url notecards.views.toggle_known notecard.pk %}">
+        <div class="btn-group">
+            <a class ="btn btn-primary btn-small" id="myButton" type='button' onclick='changeText()'/>
+            <span>View Answer &raquo;&raquo;</span>
+            <span style="display:none">View Question &raquo;</span>
+            </a>
+        </div>
+        <div class="btn-group">
+        <form id="modify" method=POST action="{% url notecards.views.toggle_known notecard.pk %}">
         {% csrf_token %}
         <input type="hidden" name="next" value="{% url notecards.views.unknown_list notecard.section.id %}?page={{unknown.number}}">
         <input class ="btn btn-success btn-small" id ="myButton" type="submit" value="Send to Known Pile">
-    </form>
+        </form>
+        </div>
+        <p><a class ="btn btn-inverse btn-mini" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit &raquo;</a></p>
     </div>
     <!-- Example row of columns -->
     <div class="row">
             <ul class="pager">
-                <li class="previous"><a class="navlink" href="?page={{ unknown.previous_page_number }}">Prev</a></li>
-                <li class="next"><a class="navlink" href="?page={{ unknown.next_page_number }}">Next</a></li>
+                <li><a class="navlink" href="?page={{ unknown.previous_page_number }}">Prev</a></li>
+                <li><a class="navlink" href="?page={{ unknown.next_page_number }}">Next</a></li>
             </ul>
         <div class="hero-unit" id="notecard">
             <h2 id="boldStuff">{{ notecard.notecard_name_html|safe }}</h2>

@@ -20,7 +20,7 @@
             <div class="span4">
                 <h2>{{ section.section_name }}</h2>
                 <p><a class="btn btn-primary btn-small" href="{% url notecards.views.notecard_list section.id %}">View section &raquo;</a></p>
-                <p><a class ="btn btn-primary btn-mini" href="{% url notecards.views.edit_section section.id %}"> Edit &raquo;</a></p>
+                <p><a class ="btn btn-inverse btn-mini" href="{% url notecards.views.edit_section section.id %}"> Edit &raquo;</a></p>
             </div>
         {% endfor %}
     {% else %}

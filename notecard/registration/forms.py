@@ -19,3 +19,6 @@ class UserCreateForm(UserCreationForm):
 class LoginForm(forms.Form):
     username = forms.CharField(label=(u'User Name'))
     password = forms.CharField(label=(u'Password'), widget=forms.PasswordInput(render_value=False))
+
+class ResetForm(forms.Form):
+    email = forms.EmailField(label=(u'Email'))
