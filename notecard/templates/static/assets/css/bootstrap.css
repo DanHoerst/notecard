@@ -314,6 +314,7 @@ h6 {
   color: #333333;
   text-rendering: optimizelegibility;
 }
+
 #notecard.hero-unit
 {
     background-image: url("../img/notecard.jpg");
@@ -325,6 +326,7 @@ h6 {
     position: relative;
     text-align: center;
     overflow: hidden;
+    min-height: 300px;
 
 }
 table#modifytable{
