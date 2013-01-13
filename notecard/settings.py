@@ -41,7 +41,7 @@ STATIC_ROOT = '/app/notecard/templates/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_DIRS = (
-    '/notecard/templates/static/',
+    '/app/notecard/templates/static/',
 )
 
 # Storage for S3
