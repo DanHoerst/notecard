@@ -40,7 +40,7 @@
                 }
             </script>
         </div>
-        <p><a class ="btn btn-primary btn-small" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit &raquo;</a></p>
+        <p><a class ="btn btn-primary btn-mini" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit &raquo;</a></p>
         <form id="modify" method=POST action="{% url notecards.views.toggle_known notecard.pk %}">
             {% csrf_token %}
             <input type="hidden" name="next" value="{% url notecards.views.unknown_list notecard.section.id %}?page={{unknown.number}}">

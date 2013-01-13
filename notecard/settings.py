@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     'notecards',
     'registration',
     'markdown',
+    'about',
     'south',
     'search',
     'storages',

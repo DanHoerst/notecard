@@ -173,6 +173,7 @@ a:hover {
 }
 .span12, .container {
   width: 940px;
+
 }
 .offset1 {
   margin-left: 100px;
@@ -328,10 +329,6 @@ table#modifytable{
     line-height: 200%;
     margin-left: auto;
     margin-right: auto;
-}
-#h2.boldStuff
-{
-    padding
 }
 h1 small,
 h2 small,

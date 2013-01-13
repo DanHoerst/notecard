@@ -13,14 +13,13 @@
         <p><a class="btn btn-primary btn-large" href="{% url notecards.views.new_semester %}">Add New Semester &raquo;</a></p>
     </div>
     <!-- Example row of columns -->
-
         {% if semester_list.object_list %}
             <div class="row">
                 {% for sem in semester_list.object_list %}
                 <div class="span4">
                     <h2>{{ sem.semester_name }}</h2>
                     <p><a class="btn btn-primary btn-small" href="{% url notecards.views.section_list sem.id %}">View semester &raquo;</a></p>
-                    <p><a class ="btn btn-primary btn-small" href="{% url notecards.views.edit_semester sem.id %}"> Edit &raquo;</a></p>
+                    <p><a class ="btn btn-primary btn-mini" href="{% url notecards.views.edit_semester sem.id %}"> Edit &raquo;</a></p>
                 </div>
                 {% endfor %}
         {% else %}

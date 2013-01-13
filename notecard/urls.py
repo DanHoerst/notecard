@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^auth/', include('notecard.registration.urls')),
     url(r'^search/', 'notecard.search.views.search', name="search"),
+    url(r'^dan/', include('notecard.about.urls')),
 )
