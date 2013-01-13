@@ -319,11 +319,13 @@ h6 {
     background-image: url("../img/notecard.jpg");
     background-size: cover;
     width: 60%;
-    height: 300px;
     margin-left: 20%;
     margin-right: 20%;
+    height: 1%;
     position: relative;
     text-align: center;
+    overflow: hidden;
+
 }
 table#modifytable{
     line-height: 200%;

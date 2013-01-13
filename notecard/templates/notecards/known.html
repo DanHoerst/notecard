@@ -9,7 +9,7 @@
             <ul class="breadcrumb">
                 <li><a href="/">Semester List</a> <span class="divider">/</span></li>
                 <li><a href="{% url section_list section.semester.id %}">{{ section.semester }}</a> <span class="divider">/</span></li>
-                <li><a href="{% url notecard_list section.id %}">{{ section.section_name  }}</a> <span class="divider">/</span></li>
+                <li><a href="{% url notecard_list section.id %}">{{ section.section_name }}</a> <span class="divider">/</span></li>
                 <li class="active">Known Notecards</li>
             </ul>
         </h2>
@@ -17,11 +17,21 @@
         <span>View Answer &raquo;</span>
         <span style="display:none">View Question &raquo;</span>
         </a>
+        {% for notecard in known.object_list %}
+    <p><a class ="btn btn-primary btn-mini" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit &raquo;</a></p>
+            <form id="modify" method=POST action="{% url notecards.views.toggle_known notecard.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url notecards.views.known_list notecard.section.id %}?page={{known.number}}">
+                <input class ="btn btn-danger btn-small" id ="myButton" type="submit" value="Send to Unknown Pile">
+            </form>
     </div>
-    <!-- Example row of columns -->
     <div class="row">
+        <ul class="pager">
+            <li class="previous"><a class="navlink" href="?page={{ known.previous_page_number }}">Prev</a></li>
+            <li class="next"><a class="navlink" href="?page={{ known.next_page_number }}">Next</a></li>
+        </ul>
         <div class="hero-unit" id="notecard">
-            {% for notecard in known.object_list %}
+
                 <h2 id="boldStuff">{{ notecard.notecard_name_html|safe }}</h2>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
                 <script type="text/javascript">
@@ -40,21 +50,13 @@
                     }
                 </script>
                 </div>
-                <p><a class ="btn btn-primary btn-mini" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit &raquo;</a></p>
-                <form id="modify" method=POST action="{% url notecards.views.toggle_known notecard.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{% url notecards.views.known_list notecard.section.id %}?page={{known.number}}">
-                    <input class ="btn btn-danger btn-small" id ="myButton" type="submit" value="Send to Unknown Pile">
-                </form>
             {% endfor %}
     </div>
     <div class="pagination pagination-centered">
         <ul>
-            <li {% if not known.has_previous %}class="disabled"{% endif %}><a class="navlink" href="?page={{ known.previous_page_number }}">Prev</a></li>
             {% for page in paginator.page_range %}
                 <li {% if known.number == page %}class="active"{% endif %}><a class="navlink" href="?page={{ page }}">{{ page }}</a></li>
             {% endfor %}
-            <li {% if not known.has_next %}class="disabled"{% endif %}><a class="navlink" href="?page={{ known.next_page_number }}">Next</a></li>
         </ul>
     </div>
 {% endblock %}
