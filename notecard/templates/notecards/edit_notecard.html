@@ -68,6 +68,9 @@
         <div class="hero-unit">
             <h2>
                 <ul class="breadcrumb">
+                    <li><a href="/">Semester List</a> <span class="divider">/</span></li>
+                    <li><a href="{% url section_list notecard.section.semester.id %}">{{ notecard.section.semester }}</a> <span class="divider">/</span></li>
+                    <li><a href="{% url notecard_list notecard.section.id %}">{{ notecard.section }}</a> <span class="divider">/</span></li>
                     <li class="active">Edit Notecard</li>
                 </ul>
             </h2>
