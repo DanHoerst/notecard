@@ -21,7 +21,7 @@
             <div class="row">
             {% for notecard in notecard_list.object_list %}
                 <div class="span4">
-                    <h2>{{ notecard.notecard_name|truncatewords:9 }}</h2>
+                    <h2>{{ notecard.notecard_name|truncatewords:5 }}</h2>
                     <p>{% if notecard.known %}<span class="label label-success"> Known </span>{% else %}<span class="label label-important">Unknown</span>{% endif %}</p>
                     <p><a class="btn btn-primary btn-small" href="{% url notecards.views.notecard_detail notecard.id %}">View Notecard &raquo;</a></p>
                 </div>

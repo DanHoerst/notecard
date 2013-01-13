@@ -36,7 +36,7 @@ MEDIA_ROOT = ''
 
 MEDIA_URL = ''
 
-STATIC_ROOT = '/app/notecard/templates/static/'
+STATIC_ROOT = ''
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
