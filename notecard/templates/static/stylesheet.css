@@ -11,6 +11,13 @@
 	  font-size: 18pt;
 	  text-decoration:none;
 	}
+    #wrapper{
+      width: 900px;
+      length: 75%;
+      margin: 0 auto;
+      text-align: left;
+      background: #CCC46A;
+    }
 
 /* link setup */
 /* title */

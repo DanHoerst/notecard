@@ -37,7 +37,7 @@ def semester_list(request):
         semester_list = paginator.page(paginator.num_pages)
 
     context = RequestContext(request)
-    return render_to_response('notecards/semester_list.html', {"semester_list": semester_list}, context_instance=context)
+    return render_to_response('notecards/semester_list.html', {"semester_list": semester_list, "paginator": paginator,}, context_instance=context)
 
 @login_required(login_url='/auth/login/')
 def section_list(request, semester_id):
@@ -75,7 +75,7 @@ def section_list(request, semester_id):
     # check if user owns the related semester - if not, returns to semester_list
     if semester.user == request.user:
         context = RequestContext(request)
-        return render_to_response('notecards/section_list.html', {"section_list": section_list, "semester": semester,}, context_instance=context)
+        return render_to_response('notecards/section_list.html', {"section_list": section_list, "semester": semester, "paginator": paginator,}, context_instance=context)
     else:
         url = reverse('semester_list')
         return HttpResponseRedirect(url)
@@ -109,7 +109,7 @@ def notecard_list(request, section_id):
         cache.set(cache_key_3, notecard, cache_time)
 
     # pagination
-    paginator = Paginator(notecard, 5)
+    paginator = Paginator(notecard, 6)
         
     try:
         page = int(request.GET.get('page', '1'))
@@ -124,7 +124,7 @@ def notecard_list(request, section_id):
     # check if user owns the related semester - if not, returns to semester_list
     if semester.user == request.user:
         context = RequestContext(request)
-        return render_to_response('notecards/notecard_list.html', {"section": section, "notecard_list": notecard_list,}, context_instance=context)
+        return render_to_response('notecards/notecard_list.html', {"section": section, "notecard_list": notecard_list, "paginator": paginator,}, context_instance=context)
     else:
         url = reverse('semester_list')
         return HttpResponseRedirect(url)
@@ -362,7 +362,7 @@ def known_list(request, section_id):
         except (EmptyPage, InvalidPage):
             known = paginator.page(paginator.num_pages)
         context = RequestContext(request)
-        return render_to_response('notecards/known.html', {"known": known, "section": section,}, context_instance=context)
+        return render_to_response('notecards/known.html', {"known": known, "section": section, "paginator": paginator,}, context_instance=context)
     else:
         url = reverse('notecard_list', kwargs={'section_id': section_id})
         return HttpResponseRedirect(url)
@@ -394,7 +394,7 @@ def unknown_list(request, section_id):
         except (EmptyPage, InvalidPage):
             unknown = paginator.page(paginator.num_pages)
         context = RequestContext(request)
-        return render_to_response('notecards/unknown.html', {"unknown": unknown, "section": section,}, context_instance=context)
+        return render_to_response('notecards/unknown.html', {"unknown": unknown, "section": section, "paginator": paginator,}, context_instance=context)
     else:
         url = reverse('notecard_list', kwargs={'section_id': section_id})
         return HttpResponseRedirect(url)

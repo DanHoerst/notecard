@@ -3,28 +3,42 @@
 {% block title %} Notecard Detail | {% endblock %}
 
 {% block content %}
-<div id='main'>
-<table id='notecards'>
-  <tr>
-    <th class="name"><a class="back" href="{% url notecard_list notecard.section.id %}">{{ notecard.section }}</a> - Notecard Detail</th>
-  </tr>
-</table>
-<h3 class='notecard'><span id='boldStuff'>{{ notecard.notecard_name_html|safe }}</span><a class ="edit" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit </a></h3>
-<input id ="myButton" type='button' onclick='changeText()' value='View Answer'/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-<script type="text/javascript">
-	function changeText(){
-		if (document.getElementById("boldStuff").innerHTML == "{{ notecard.notecard_html|escapejs }}")
-		{
-			document.getElementById("boldStuff").innerHTML = "{{ notecard.notecard_name_html|escapejs }}";
-			$("#myButton").prop("value", "View Question");
-		}
-		else
-		{
-			document.getElementById("boldStuff").innerHTML = "{{ notecard.notecard_html|escapejs }}";
-			$("#myButton").prop("value", "View Answer");
-		}
-	}
-</script>
-</div>
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <div class="hero-unit">
+        <h2>
+            <ul class="breadcrumb">
+                <li><a href="/">Semester List</a> <span class="divider">/</span></li>
+                <li><a href="{% url section_list notecard.section.semester.id %}">{{ notecard.section.semester }}</a> <span class="divider">/</span></li>
+                <li><a href="{% url notecard_list notecard.section.id %}">{{ notecard.section }}</a> <span class="divider">/</span></li>
+                <li class="active">Notecard Detail</li>
+            </ul>
+        </h2>
+        <a class ="btn btn-primary btn-small" id="myButton" type='button' onclick='changeText()'/>
+        <span>View Answer &raquo;</span>
+        <span style="display:none">View Question &raquo;</span>
+        </a>
+    </div>
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="hero-unit" id="notecard">
+            <h2 id="boldStuff">{{ notecard.notecard_name_html|safe }}</h2>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+            <script type="text/javascript">
+                function changeText(){
+                    var elem = document.getElementById("myButton");
+                    if (document.getElementById("boldStuff").innerHTML == "{{ notecard.notecard_html|escapejs }}")
+                    {
+                        document.getElementById("boldStuff").innerHTML = "{{ notecard.notecard_name_html|escapejs }}";
+                        $('span',elem).toggle();
+                    }
+                    else
+                    {
+                        document.getElementById("boldStuff").innerHTML = "{{ notecard.notecard_html|escapejs }}";
+                        $('span',elem).toggle();
+                    }
+                }
+            </script>
+        </div>
+        <p><a class ="btn btn-primary btn-small" href="{% url notecards.views.edit_notecard notecard.id %}"> Edit &raquo;</a></p>
+    </div>
 {% endblock %}
