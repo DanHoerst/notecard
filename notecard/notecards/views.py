@@ -1,18 +1,22 @@
 from django.http import HttpResponseRedirect, Http404
-from notecard.notecards.models import *
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
-from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.cache import cache
+
 import logging
+
+from notecard.notecards.models import *
+from notecard.notecards.utils import paginate_me
+
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 # 60 Minute cache time
 cache_time = 1800
+
 
 @login_required(login_url='/auth/login/')
 def semester_list(request):
@@ -24,17 +28,7 @@ def semester_list(request):
         cache.set(cache_key, semester, cache_time)
 
     ## paginate each semester
-    paginator = Paginator(semester, 6)
-
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    try:
-        semester_list = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        semester_list = paginator.page(paginator.num_pages)
+    semester_list, paginator = paginate_me(request, semester, 6)
 
     context = RequestContext(request)
     return render_to_response('notecards/semester_list.html', {"semester_list": semester_list, "paginator": paginator,}, context_instance=context)
@@ -51,29 +45,18 @@ def section_list(request, semester_id):
     except Semester.DoesNotExist:
         raise Http404
 
-    # get all sections related to the semester owned by the user
-    cache_key_2 = str(semester_id) + 'users_section_list_cache_key'
-    section = cache.get(cache_key_2)
-    if not section:
-        section = Section.objects.filter(semester__id=semester_id)
-        section = section.filter(semester__user=request.user)
-        cache.set(cache_key_2, section, cache_time)
-
-    # pagination
-    paginator = Paginator(section, 6)
-
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    try:
-        section_list = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        section_list = paginator.page(paginator.num_pages)
-
     # check if user owns the related semester - if not, returns to semester_list
     if semester.user == request.user:
+        # get all sections related to the semester owned by the user
+        cache_key_2 = str(semester_id) + 'users_section_list_cache_key'
+        section = cache.get(cache_key_2)
+        if not section:
+            section = semester.section_set.all().filter(semester__user=request.user)
+            cache.set(cache_key_2, section, cache_time)
+
+        # pagination
+        section_list, paginator = paginate_me(request, section, 6)
+
         context = RequestContext(request)
         return render_to_response('notecards/section_list.html', {"section_list": section_list, "semester": semester, "paginator": paginator,}, context_instance=context)
     else:
@@ -92,37 +75,25 @@ def notecard_list(request, section_id):
     except Section.DoesNotExist:
         raise Http404
 
-    semester_id = section.semester.id
-    cache_key_2 = str(semester_id) + 'single_semester_cache_key'
+    cache_key_2 = str(section.semester.id) + 'single_semester_cache_key'
     semester = cache.get(cache_key_2)
     if not semester:
         # create semester variable to test if owned by user
         semester = Semester.objects.get(section__id__iexact = section_id)
         cache.set(cache_key_2, semester, cache_time)
 
-    cache_key_3 = str(section_id) + 'users_notecard_list_cache_key'
-    notecard = cache.get(cache_key_3)
-    if not notecard:
-        # get all notecards related to the section of the semester owned by the user
-        notecard = Notecard.objects.filter(section__id=section_id)
-        notecard = notecard.filter(section__semester__user=request.user)
-        cache.set(cache_key_3, notecard, cache_time)
-
-    # pagination
-    paginator = Paginator(notecard, 6)
-
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    try:
-        notecard_list = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        notecard_list = paginator.page(paginator.num_pages)
-
     # check if user owns the related semester - if not, returns to semester_list
     if semester.user == request.user:
+        cache_key_3 = str(section_id) + 'users_notecard_list_cache_key'
+        notecard = cache.get(cache_key_3)
+        if not notecard:
+            # get all notecards related to the section of the semester owned by the user
+            notecard = section.notecard_set.all().filter(section__semester__user=request.user)
+            cache.set(cache_key_3, notecard, cache_time)
+
+        # pagination
+        notecard_list, paginator = paginate_me(request, notecard, 6)
+
         context = RequestContext(request)
         return render_to_response('notecards/notecard_list.html', {"section": section, "notecard_list": notecard_list, "paginator": paginator,}, context_instance=context)
     else:
@@ -141,8 +112,7 @@ def notecard_detail(request, notecard_id):
     except Notecard.DoesNotExist:
         raise Http404
 
-    semester_id = notecard.section.semester.id
-    cache_key_2 = str(semester_id) + 'single_semester_cache_key'
+    cache_key_2 = str(notecard.section.semester.id) + 'single_semester_cache_key'
     semester = cache.get(cache_key_2)
     if not semester:
         semester = Semester.objects.get(section__notecard__id__iexact = notecard_id)
@@ -343,24 +313,15 @@ def known_list(request, section_id):
     cache_key = str(section_id) + 'known_list_cache_key'
     known_list = cache.get(cache_key)
     if not known_list:
-        known_list = Notecard.objects.filter(known=1, section=section)
-        known_list = known_list.filter(section__semester__user=request.user)
+        known_list = section.notecard_set.all().filter(known=1).filter(section__semester__user=request.user)
         cache.set(cache_key, known_list, cache_time)
     semester = Semester.objects.get(section__id__iexact = section_id)
 
-    paginator = Paginator(known_list, 1)
-
     # check if known list is populated and user owns the related semester - if not, returns to notecard_list
     if known_list and semester.user == request.user:
-        try:
-            page = int(request.GET.get('page', '1'))
-        except ValueError:
-            page = 1
 
-        try:
-            known = paginator.page(page)
-        except (EmptyPage, InvalidPage):
-            known = paginator.page(paginator.num_pages)
+        known, paginator = paginate_me(request, known_list, 1)
+
         context = RequestContext(request)
         return render_to_response('notecards/known.html', {"known": known, "section": section, "paginator": paginator,}, context_instance=context)
     else:
@@ -376,23 +337,15 @@ def unknown_list(request, section_id):
     cache_key = str(section_id) + 'unknown_list_cache_key'
     unknown_list = cache.get(cache_key)
     if not unknown_list:
-        unknown_list = Notecard.objects.filter(known=0, section=section)
-        unknown_list = unknown_list.filter(section__semester__user=request.user)
+        unknown_list = section.notecard_set.all().filter(known=0).filter(section__semester__user=request.user)
         cache.set(cache_key, unknown_list, cache_time)
     semester = Semester.objects.get(section__id__iexact = section_id)
 
-    paginator = Paginator(unknown_list, 1)
-
     # check if known list is populated and user owns the related semester - if not, returns to notecard_list
     if unknown_list and semester.user == request.user:
-        try:
-            page = int(request.GET.get('page', '1'))
-        except ValueError:
-            page = 1
-        try:
-            unknown = paginator.page(page)
-        except (EmptyPage, InvalidPage):
-            unknown = paginator.page(paginator.num_pages)
+
+        unknown, paginator = paginate_me(request, unknown_list, 1)
+
         context = RequestContext(request)
         return render_to_response('notecards/unknown.html', {"unknown": unknown, "section": section, "paginator": paginator,}, context_instance=context)
     else:

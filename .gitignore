@@ -7,10 +7,7 @@ venv
 .gitignore~
 *.*~
 *.*~~
-<<<<<<< HEAD
 *~
-=======
->>>>>>> development
 .idea/
 local_settings.py
 *~
